@@ -8,7 +8,10 @@ task :spec do
     puts "Setting RUBY_EXE to '#{ruby_exe}'"
     ENV["RUBY_EXE"] = ruby_exe
   end
-  system("ir spec/mspec/bin/mspec-run --format spec spec/*_spec.rb")
+  
+  #  system("ir spec/mspec/bin/mspec-run --format spec spec/*_spec.rb")
+  # for some reason the latest build of ir (in the path) throws an error - works if I use older build
+  system("mono /Users/thbar/Work/git/ironruby-labs/Release/ir.exe spec/mspec/bin/mspec-run --format spec spec/*_spec.rb")
 end
 
 begin
