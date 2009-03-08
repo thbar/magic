@@ -2,7 +2,13 @@ require 'rake'
 
 desc "Home-baked spec task"
 task :spec do
-  system("mono /Users/thbar/Work/git/ironruby-labs/Release/ir.exe spec/mspec/bin/mspec-run --format spec spec/*_spec.rb")
+  unless ENV["RUBY_EXE"]
+    # MSpec needs RUBY_EXE env var now - guess it from env
+    ruby_exe = `which ir`.strip
+    puts "Setting RUBY_EXE to '#{ruby_exe}'"
+    ENV["RUBY_EXE"] = ruby_exe
+  end
+  system("ir spec/mspec/bin/mspec-run --format spec spec/*_spec.rb")
 end
 
 begin
