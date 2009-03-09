@@ -67,4 +67,17 @@ describe Magic do
     form.menu.menu_items.first.menu_items.map { |c| c.text.to_s }.should == ["&New","&Quit","&Other Quit"]
   end
   
+  # todo - find a cleaner way to mock out stuff (or not mock any)
+  
+  it "supports nested silverlight UIElement" do
+    container = Magic.build do
+      @container = mock_silverlight_container do
+        mock_control
+      end
+    end
+    
+    container.should be_kind_of MockSilverlightContainer
+    container.children.first.should be_kind_of MockControl
+  end
+  
 end

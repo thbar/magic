@@ -20,8 +20,11 @@ class Magic
     instance = build_instance_with_properties(clazz, *args)
     # add to the parent control only if it's a well known kind
     # todo - extract configurable mappings ?
-    @stack.last.controls.add(instance) if (@stack.last && instance.is_a?(Control))
-    @stack.last.menu_items.add(instance) if (@stack.last && instance.is_a?(MenuItem))
+    if @stack.last
+      @stack.last.controls.add(instance) if (defined?(Control) && instance.is_a?(Control))
+      @stack.last.menu_items.add(instance) if (defined?(MenuItem) && instance.is_a?(MenuItem))
+      @stack.last.children.add(instance) if (defined?(UIElement) && instance.is_a?(UIElement))
+    end
     @stack.push(instance)
     yield if block_given?
     @stack.pop
