@@ -14,6 +14,17 @@ task :spec do
   system("mono /Users/thbar/Work/git/ironruby-labs/Release/ir.exe spec/mspec/bin/mspec-run --format spec spec/*_spec.rb")
 end
 
+desc "Compress all magic files into a single lib for use in Silverlight"
+task :compress do
+  File.open(File.dirname(__FILE__) + "/../magic-compressed.rb","w") do |output|
+    output << "# compressed version of magic - do not modify\n"
+    Dir["lib/**/*.rb"].each do |file|
+      output << "\n\n# content for #{file}\n\n"
+      output << IO.read(file).gsub(/^require/,"# disabled: require")
+    end
+  end
+end
+
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |s|
