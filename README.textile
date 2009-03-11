@@ -1,12 +1,11 @@
-Magic is an IronRuby gem making it easier to develop Windows Forms and Silverlight UI with IronRuby.
-
-Note that while developing it, it quickly became clear that Magic could be useful outside IronRuby and Windows Forms in the very near future (look at IDEAS to see where we're heading).
+Magic is an IronRuby gem making it easier to develop Windows Forms, WPF and Silverlight UI with IronRuby.
 
 h1. USAGE
 
+Here are quick starters:
+
 h2. Windows Forms
 
-Here's a quick starter:
 
 	form = Magic.build do
 	  @menu = main_menu do
@@ -24,12 +23,27 @@ Here's a quick starter:
 	    end
 	  end
 	end
+	
+	Application.Run(form)
+
+h2. WPF
+
+	window = Magic.build do
+	  window(:width => 600, :height => 480, :title => 'Hello world!') do
+	    stack_panel(:margin => thickness(30)) do
+	      button(:content => 'Click me!', :font_size => 22).click do
+	        MessageBox.show("Ok!")
+	      end
+	    end
+	  end
+	end
+
+	app = Application.new
+	app.run(window)
 
 h2. Silverlight
 
-Support has just been added. You'll need to run "rake compress" to create magic-compressed.rb, which gathers all the magic files into one. I didn't find a way yet to use the gem as-is.
-
-Once you have magic-compressed.rb, you can use it like that:
+You'll need to run "rake compress" to create magic-compressed.rb, which gathers all the magic files into one. Once you have magic-compressed.rb, you can use it like that:
 
 	require "silverlight"
 	require "magic-compressed"
@@ -58,6 +72,7 @@ A few points (see spec/magic_spec.rb for details):
 ** button becomes Button
 ** flow_layout_panel becomes FlowLayoutPanel
 * method calls automatically add the object to its parent children collection (if the object is a Control, a MenuItem or a UIElement - this will become configurable)
+* if the parent responds to :content (eg: WPF Window), then parent.content will use the (unique) child
 * if a Hash is passed, corresponding properties are set after instanciation (:text => "This is the text")
 * if the property is an enum, snake_case symbol value is allowed (:dock => :fill is the same as :dock => DockStyle.Fill)
 * handlers are registered if a lambda is passed (:click => lambda)
@@ -68,7 +83,9 @@ A few points (see spec/magic_spec.rb for details):
 
 h1. TESTING
 
-Magic comes with its set of specs (based on MSpec). You'll currently have to tweak Rakefile (see spec task) to match your environment. Then you can run:
+Magic comes with its set of specs (based on MSpec). You'll currently have to tweak Rakefile (see spec task) to match your environment.
+
+Then you can run (either on Windows or Mac OS):
 
   rake spec
 
@@ -82,6 +99,8 @@ h1. IDEAS
 * become independent of Windows Forms (see Magic.method_missing for notes about that)
 * use it to generate graphs with QuickGraph
 * use it outside IronRuby (the coupling to IronRuby is quite isolated)
+* convert unknown methods to parent delegate registration, if available (useful for background work for instance)
+* convert :margin => 30 to :margin => Thickness.new(30)
 
 h1. COPYRIGHT
 
