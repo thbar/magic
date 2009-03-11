@@ -2,16 +2,21 @@ require 'rake'
 
 desc "Home-baked spec task"
 task :spec do
-  unless ENV["RUBY_EXE"]
-    # MSpec needs RUBY_EXE env var now - guess it from env
-    ruby_exe = `which ir`.strip
-    puts "Setting RUBY_EXE to '#{ruby_exe}'"
-    ENV["RUBY_EXE"] = ruby_exe
+  # this obviously need some cleaning - it's currently getting the job done though
+  if RUBY_PLATFORM == 'i386-mswin32'
+    ENV["RUBY_EXE"] = 'C:\git\ironruby\Merlin\Main\Bin\debug\ir.exe'
+    system("ir spec/mspec/bin/mspec-run --format spec spec/*_spec.rb")
+  else
+    unless ENV["RUBY_EXE"]
+      # MSpec needs RUBY_EXE env var now - guess it from env
+      ruby_exe = `which ir`.strip
+      puts "Setting RUBY_EXE to '#{ruby_exe}'"
+      ENV["RUBY_EXE"] = ruby_exe
+    end
+    #  system("ir spec/mspec/bin/mspec-run --format spec spec/*_spec.rb")
+    # for some reason the latest build of ir (in the path) throws an error - works if I use older build
+    system("mono /Users/thbar/Work/git/ironruby-labs/Release/ir.exe spec/mspec/bin/mspec-run --format spec spec/*_spec.rb")
   end
-  
-  #  system("ir spec/mspec/bin/mspec-run --format spec spec/*_spec.rb")
-  # for some reason the latest build of ir (in the path) throws an error - works if I use older build
-  system("mono /Users/thbar/Work/git/ironruby-labs/Release/ir.exe spec/mspec/bin/mspec-run --format spec spec/*_spec.rb")
 end
 
 desc "Compress all magic files into a single lib for use in Silverlight"
@@ -33,7 +38,7 @@ begin
     s.email = "thibaut.barrere@gmail.com"
     s.homepage = "http://github.com/thbar/magic"
     s.description = "TODO"
-    s.authors = ["Thibaut Barrère"]
+    s.authors = ["Thibaut Barrère"]
   end
 rescue LoadError
   puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
