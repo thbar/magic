@@ -21,9 +21,19 @@ class Magic
     # add to the parent control only if it's a well known kind
     # todo - extract configurable mappings ?
     if @stack.last
-      @stack.last.controls.add(instance) if (defined?(Control) && instance.is_a?(Control))
-      @stack.last.menu_items.add(instance) if (defined?(MenuItem) && instance.is_a?(MenuItem))
-      @stack.last.children.add(instance) if (defined?(UIElement) && instance.is_a?(UIElement))
+      # Windows Forms Control and MenuItem support
+      @stack.last.controls.add(instance) if (defined?(System::Windows::Forms::Control) && instance.is_a?(System::Windows::Forms::Control))
+      @stack.last.menu_items.add(instance) if (defined?(System::Windows::Forms::MenuItem) && instance.is_a?(System::Windows::Forms::MenuItem))
+      # Silverlight/WPF support
+      if defined?(System::Windows::UIElement)
+        if instance.is_a?(System::Windows::UIElement)
+          if @stack.last.respond_to?(:content)
+            @stack.last.content = instance
+          else
+            @stack.last.children.add(instance)
+          end
+        end
+      end      
     end
     @stack.push(instance)
     yield if block_given?

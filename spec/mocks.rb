@@ -10,9 +10,17 @@ class MockSilverlightContainer
   end
 end
 
-class UIElement
+module System
+  module Windows
+    class UIElement
+    end
+  end
 end
 
-class MockControl < UIElement
+class MockWindow
+  attr_accessor :content
+end
+
+class MockControl < System::Windows::UIElement
 end
   

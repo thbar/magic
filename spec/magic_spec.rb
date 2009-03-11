@@ -69,7 +69,7 @@ describe Magic do
   
   # todo - find a cleaner way to mock out stuff (or not mock any)
   
-  it "supports nested silverlight UIElement" do
+  it "supports nested WPF UIElement" do
     container = Magic.build do
       @container = mock_silverlight_container do
         mock_control
@@ -78,6 +78,17 @@ describe Magic do
     
     container.should be_kind_of MockSilverlightContainer
     container.children.first.should be_kind_of MockControl
+  end
+  
+  it "supports WPF content" do
+    window = Magic.build do
+      mock_window do
+        mock_control
+      end
+    end
+
+    window.should be_kind_of MockWindow
+    window.content.should be_kind_of MockControl
   end
   
 end
