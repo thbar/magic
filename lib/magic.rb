@@ -16,27 +16,35 @@ class Magic
   def method_missing(method,*args)
     # push stuff recursively on a stack so that we can add the item to its parents children collection
     @stack ||= []
-    clazz = eval(classify(method.to_s))
-    instance = build_instance_with_properties(clazz, *args)
-    # add to the parent control only if it's a well known kind
-    # todo - extract configurable mappings ?
-    if @stack.last
-      # Windows Forms Control and MenuItem support
-      @stack.last.controls.add(instance) if (defined?(System::Windows::Forms::Control) && instance.is_a?(System::Windows::Forms::Control))
-      @stack.last.menu_items.add(instance) if (defined?(System::Windows::Forms::MenuItem) && instance.is_a?(System::Windows::Forms::MenuItem))
-      # Silverlight/WPF support
-      if defined?(System::Windows::UIElement)
-        if instance.is_a?(System::Windows::UIElement)
-          if @stack.last.respond_to?(:content)
-            @stack.last.content = instance
-          else
-            @stack.last.children.add(instance)
+    parent = @stack.last
+
+    if parent && parent.respond_to?(method)
+      set_property(parent, method, *args)
+    else
+      clazz = eval(classify(method.to_s))
+      instance = build_instance_with_properties(clazz, *args)
+      # add to the parent control only if it's a well known kind
+      # todo - extract configurable mappings ?
+      if parent
+        # serve ourselves, first
+        parent.send(method,args) if parent.respond_to?(method)
+        # Windows Forms Control and MenuItem support
+        parent.controls.add(instance) if (defined?(System::Windows::Forms::Control) && instance.is_a?(System::Windows::Forms::Control))
+        parent.menu_items.add(instance) if (defined?(System::Windows::Forms::MenuItem) && instance.is_a?(System::Windows::Forms::MenuItem))
+        # Silverlight/WPF support
+        if defined?(System::Windows::UIElement)
+          if instance.is_a?(System::Windows::UIElement)
+            if parent.respond_to?(:content)
+              parent.content = instance
+            else
+              parent.children.add(instance)
+            end
           end
-        end
-      end      
+        end      
+      end
+      @stack.push(instance)
+      yield instance if block_given?
+      @stack.pop
     end
-    @stack.push(instance)
-    yield if block_given?
-    @stack.pop
   end
 end

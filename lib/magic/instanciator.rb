@@ -15,11 +15,12 @@ module Instanciator
   def build_instance_with_properties(klass,*args)
     properties = args.last.is_a?(Hash) ? args.delete_at(args.size-1) : {}
     instance = klass.new(*args)
-    properties.keys.inject(instance) do |instance,k|
-      v = properties[k]
-      v.is_a?(Proc) ? instance.send(k,&v) : instance.send("#{k}=", parse_enum_if_enum(klass,k,v))
-      instance
-    end
+    properties.keys.inject(instance) { |instance,k| set_property(instance, k, properties[k]) }
   end
-
+  
+  # sugarized property setter - allows symbols for enums
+  def set_property(instance, k, v)
+    v.is_a?(Proc) ? instance.send(k,&v) : instance.send("#{k}=", parse_enum_if_enum(instance.class,k,v))
+    instance
+  end
 end

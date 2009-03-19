@@ -13,6 +13,33 @@ describe Magic do
     form.dock.should == DockStyle.Fill
   end
   
+  it "understands basic property setting inside the block" do
+    form = Magic.build do
+      form { text "Hello world" }
+    end
+
+    form.should be_kind_of Form
+    form.text.to_s.should == "Hello world"
+  end
+  
+  it "understands enum property as symbol setting inside the block" do
+    form = Magic.build do
+      form { dock :fill }
+    end
+
+    form.should be_kind_of Form
+    form.dock.should == DockStyle.Fill
+  end
+  
+  it "passes the parent as a block param" do
+    expected_form = nil
+    Magic.build do
+      form do |f|
+        expected_form = f
+      end
+    end.should == expected_form
+  end
+  
   it "allows nesting of controls" do
     form = Magic.build do
       form(:text => "Hello world") do

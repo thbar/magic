@@ -15,8 +15,7 @@ describe "Instanciator.build_instance_with_properties" do
     instance_from(Label, :text => "Hello").text.to_s.should == "Hello"
   end
   
-  it "forwards the firsts arguments to the constructor if it's not a Hash" do
-    # sugar for MenuItem
+  it "forwards the first arguments to the constructor if it's not a Hash" do
     instance_from(MenuItem, "Hello").text.to_s.should == "Hello"
   end
   
@@ -34,4 +33,8 @@ describe "Instanciator.build_instance_with_properties" do
     instance_from(FlowLayoutPanel, :dock => :fill).dock.should == DockStyle.fill
   end
 
+  # TODO - add spec
+  # it "sugarize enum properties" do
+  # end
+  
 end

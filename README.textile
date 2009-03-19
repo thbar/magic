@@ -71,6 +71,8 @@ A few points (see spec/magic_spec.rb for details):
 ** menu_item creates an instance of MenuItem
 ** button becomes Button
 ** flow_layout_panel becomes FlowLayoutPanel
+* if a method call matches an existing method of the parent, the method is called
+* the instanciated control is passed as an optional param to the block
 * method calls automatically add the object to its parent children collection (if the object is a Control, a MenuItem or a UIElement - this will become configurable)
 * if the parent responds to :content (eg: WPF Window), then parent.content will use the (unique) child
 * if a Hash is passed, corresponding properties are set after instanciation (:text => "This is the text")
@@ -93,14 +95,24 @@ to see all the (m)specs running.
 
 Note that I currently use a few nasty mocks (see mocks.rb) that I'll need to clean-up.
 
+h1. PLANNED FEATURES AND STUFF
+
+Wildo:
+
+* support flag enums as an array of symbol
+* support delegate definition inside the block (vs. as param)
+* ensure event handlers can be registered from inside the block (vs. as param)
+* create a website (useful resources: "here":http://drnicwilliams.com/2008/12/21/migrating-project-websites-to-github-pages-with-sake-tasks-new-websites-with-jekyll_generator/ and "here":http://github.com/blog/272-github-pages)
+
+Maydo:
+
+* allow to always assume Magic.build { } is called (method_missing patch on self)
+* convert :margin => 30 to :margin => thickness(30) - needs reflection
+
 h1. IDEAS
 
-* build a website to make it easier to discover and understand
-* become independent of Windows Forms (see Magic.method_missing for notes about that)
-* use it to generate graphs with QuickGraph
-* use it outside IronRuby (the coupling to IronRuby is quite isolated)
-* convert unknown methods to parent delegate registration, if available (useful for background work for instance)
-* convert :margin => 30 to :margin => Thickness.new(30)
+* use to generate graphs with QuickGraph
+* use outside IronRuby (the coupling to IronRuby is quite isolated)
 
 h1. COPYRIGHT
 
