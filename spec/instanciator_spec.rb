@@ -36,9 +36,5 @@ describe "Instanciator.build_instance_with_properties" do
   it "understands array of symbols for value if the property is a flagged enum" do
     instance_from(FlowLayoutPanel, :anchor => [:bottom,:right]).anchor.to_string.to_s.should == "Bottom, Right"
   end
-
-  # TODO - add spec
-  # it "sugarize enum properties" do
-  # end
   
 end
