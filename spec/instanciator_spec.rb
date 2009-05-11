@@ -33,6 +33,10 @@ describe "Instanciator.build_instance_with_properties" do
     instance_from(FlowLayoutPanel, :dock => :fill).dock.should == DockStyle.fill
   end
 
+  it "understands enum for value if the property is an enum" do
+    instance_from(FlowLayoutPanel, :dock => DockStyle.fill).dock.should == DockStyle.fill
+  end
+
   it "understands array of symbols for value if the property is a flagged enum" do
     instance_from(FlowLayoutPanel, :anchor => [:bottom,:right]).anchor.to_string.to_s.should == "Bottom, Right"
   end

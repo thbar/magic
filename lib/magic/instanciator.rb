@@ -14,8 +14,10 @@ module Instanciator
         int_values = value.map { |e| enum_to_int(parse_enum(type,e)) }
         or_combination = int_values.inject { |result,e| result | e }
         int_to_enum(type, or_combination)
-      else
+      elsif value.is_a?(Symbol)
         parse_enum(type,value)
+      else
+        value
       end
     else
       value
