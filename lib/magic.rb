@@ -21,7 +21,7 @@ class Magic
     if parent && parent.respond_to?(method)
       set_property(parent, method, *args)
     else
-      clazz = eval(classify(method.to_s))
+      clazz = Object.const_get(classify(method.to_s))
       instance = build_instance_with_properties(clazz, *args)
       # add to the parent control only if it's a well known kind
       # todo - extract configurable mappings ?
