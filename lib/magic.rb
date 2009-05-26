@@ -1,10 +1,10 @@
-require File.dirname(__FILE__) + "/magic/instanciator"
+require File.dirname(__FILE__) + "/magic/instance_creator"
 require File.dirname(__FILE__) + "/magic/classifier"
 
 # DSL-like object creation. Not that much .Net related, except for the Control/MenuItem specifics
 # which could be extracted and made configurable. This is likely to happen.
 class Magic
-  include Instanciator
+  include InstanceCreator
   include Classifier
 
   class << self

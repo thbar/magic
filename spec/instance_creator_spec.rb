@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + "/spec_helper"
 
-describe "Instanciator.build_instance_with_properties" do
-  extend Instanciator
+describe "InstanceCreator.build_instance_with_properties" do
+  extend InstanceCreator
   
   def instance_from(klass,options={})
     build_instance_with_properties(klass,options)

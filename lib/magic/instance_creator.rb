@@ -2,7 +2,7 @@ require 'magic/classifier'
 require 'magic/enum_support'
 
 # internal sugar to instanciate a given CLR type - apart from enum handling, the code is not CLR specific
-module Instanciator
+module InstanceCreator
   include Classifier
   include EnumSupport
   
