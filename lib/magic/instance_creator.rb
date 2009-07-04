@@ -25,7 +25,7 @@ module InstanceCreator
   end
     
   def parse_enum(type,value)
-    Enum.parse(type, classify(value.to_s))
+    System::Enum.parse(type, classify(value.to_s))
   end
   
   # return the method name to call to set the property, if there is one. Can be either:
