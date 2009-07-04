@@ -18,8 +18,8 @@ class Magic
     @stack ||= []
     parent = @stack.last
 
-    if parent && parent.respond_to?(method)
-      set_property(parent, method, *args)
+    if setter?(parent, method)
+      set_property(parent, method, args)
     else
       clazz = Object.const_get(classify(method.to_s))
       instance = build_instance_with_properties(clazz, *args)
@@ -40,7 +40,9 @@ class Magic
               parent.children.add(instance)
             end
           end
-        end      
+        end
+        # Swing support
+        parent.add(instance) if (defined?(Java::JavaAwt::Component) && instance.is_a?(Java::JavaAwt::Component))
       end
       @stack.push(instance)
       yield instance if block_given?
