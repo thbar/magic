@@ -1,4 +1,4 @@
-$LOAD_PATH << File.dirname(__FILE__) + "/../../lib"
+$LOAD_PATH << File.dirname(__FILE__) + "/../lib"
 raise "jruby required" unless defined?(RUBY_ENGINE) && RUBY_ENGINE == 'jruby'
 
 require 'magic'
