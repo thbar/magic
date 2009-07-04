@@ -5,15 +5,18 @@ raise "jruby required" unless defined?(RUBY_ENGINE) && RUBY_ENGINE == 'jruby'
 require 'magic'
 require 'java'
 
-import "javax.swing.JFrame"
-import "javax.swing.JButton"
+import 'javax.swing.JFrame'
+import 'javax.swing.JButton'
 
 frame = Magic.build do
   JFrame do
-    title "Hello!"
+    title 'Hello!'
     size 400,500
-    @button = JButton("Press me")
-    @button.addActionListener { @button.setText("Pressed!") }
+    JButton('Press me') do |b|
+      b.addActionListener do
+        b.setText 'Pressed!'
+      end
+    end
   end
 end
 
