@@ -1,11 +1,12 @@
-Magic is an IronRuby gem making it easier to develop Windows Forms, WPF and Silverlight UI with IronRuby.
+Magic is a gem making it easier to develop UI:
+- Windows Forms, WPF/Silverlight with IronRuby,
+- Swing with JRuby
 
 h1. USAGE
 
-Here are quick starters:
+Here are quick starters (some of these are under samples/):
 
 h2. Windows Forms
-
 
 	form = Magic.build do
 	  @menu = main_menu do
@@ -63,6 +64,28 @@ You'll need to run "rake compress" to create magic-compressed.rb, which gathers 
 
 It makes it easy to create XAML-free applications, or to reduce the amount of XAML to be created.
 
+h2. Swing
+
+Preliminary support for Swing has just been added. Here's an example:
+
+	import 'javax.swing.JFrame'
+	import 'javax.swing.JButton'
+
+	frame = Magic.build do
+	  JFrame do
+	    title 'Hello!'
+	    size 400,500
+	    JButton('Press me') do |b|
+	      b.addActionListener do
+	        b.setText 'Pressed!'
+	      end
+	    end
+	  end
+	end
+
+	frame.set_default_close_operation(JFrame::EXIT_ON_CLOSE)
+	frame.show
+
 h1. UNDER THE COVER
 
 A few points (see spec/magic_spec.rb for details):
@@ -95,24 +118,10 @@ to see all the (m)specs running.
 
 Note that I currently use a few nasty mocks (see mocks.rb) that I'll need to clean-up.
 
-h1. PLANNED FEATURES AND STUFF
+h1. TODO
 
-Wildo:
-
-* support flag enums as an array of symbol
-* support delegate definition inside the block (vs. as param)
-* ensure event handlers can be registered from inside the block (vs. as param)
-* create a website (useful resources: "here":http://drnicwilliams.com/2008/12/21/migrating-project-websites-to-github-pages-with-sake-tasks-new-websites-with-jekyll_generator/ and "here":http://github.com/blog/272-github-pages)
-
-Maydo:
-
-* allow to always assume Magic.build { } is called (method_missing patch on self)
-* convert :margin => 30 to :margin => thickness(30) - needs reflection
-
-h1. IDEAS
-
-* use to generate graphs with QuickGraph
-* use outside IronRuby (the coupling to IronRuby is quite isolated)
+* remove obsolete .Net flagged enum support (IronRuby now supports X | Y)
+* split the core into toolkit-specific builders
 
 h1. COPYRIGHT
 
