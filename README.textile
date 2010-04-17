@@ -1,5 +1,5 @@
 Magic is a gem making it easier to develop UI:
-- Windows Forms, WPF/Silverlight with IronRuby,
+- Windows Forms, WPF/Silverlight with IronRuby
 - Swing with JRuby
 
 h1. USAGE
@@ -8,59 +8,65 @@ Here are quick starters (some of these are under samples/):
 
 h2. Windows Forms
 
-	form = Magic.build do
-	  @menu = main_menu do
-	    menu_item("&File") do
-	      menu_item("&New")
-	      menu_item("&Quit").click { Application.Exit }
-	      menu_item("&Other Quit", :click => lambda { Application.Exit })
-	    end
-	  end
-	  form(:text => "Title", :menu => @menu) do
-	    flow_layout_panel(:dock => :fill) do
-	      button(:text => "Click me!").click do
-	        MessageBox.Show("Hello from button!")
-	      end
-	    end
-	  end
-	end
-	
-	Application.Run(form)
+<pre><code>
+form = Magic.build do
+  @menu = main_menu do
+    menu_item("&File") do
+      menu_item("&New")
+      menu_item("&Quit").click { Application.Exit }
+      menu_item("&Other Quit", :click => lambda { Application.Exit })
+    end
+  end
+  form(:text => "Title", :menu => @menu) do
+    flow_layout_panel(:dock => :fill) do
+      button(:text => "Click me!").click do
+        MessageBox.Show("Hello from button!")
+      end
+    end
+  end
+end
+
+Application.Run(form)
+</code></pre>
 
 h2. WPF
 
-	window = Magic.build do
-	  window(:width => 600, :height => 480, :title => 'Hello world!') do
-	    stack_panel(:margin => thickness(30)) do
-	      button(:content => 'Click me!', :font_size => 22).click do
-	        MessageBox.show("Ok!")
-	      end
-	    end
-	  end
-	end
+<pre><code>
+window = Magic.build do
+  window(:width => 600, :height => 480, :title => 'Hello world!') do
+    stack_panel(:margin => thickness(30)) do
+      button(:content => 'Click me!', :font_size => 22).click do
+        MessageBox.show("Ok!")
+      end
+    end
+  end
+end
 
-	app = Application.new
-	app.run(window)
+app = Application.new
+app.run(window)
+</code></pre>
 
 h2. Silverlight
 
 You'll need to run "rake compress" to create magic-compressed.rb, which gathers all the magic files into one. Once you have magic-compressed.rb, you can use it like that:
 
-	require "silverlight"
-	require "magic-compressed"
+<pre><code>
+require "silverlight"
+require "magic-compressed"
 
-	class App < SilverlightApplication
- 
-	  def initialize
-	    application.root_visual = Magic.build do
-	      stack_panel do
-	        10.times { |i| text_block(:text => i.to_s, :width => 30,:height => 30) }
-	      end
-	    end
-	  end
-	end
+class App < SilverlightApplication
 
-	$app = App.new
+  def initialize
+    application.root_visual = Magic.build do
+      stack_panel do
+        10.times { |i| text_block(:text => i.to_s, :width => 30,:height => 30) }
+      end
+    end
+  end
+end
+
+$app = App.new
+</code></pre>
 
 It makes it easy to create XAML-free applications, or to reduce the amount of XAML to be created.
 
@@ -68,23 +74,25 @@ h2. Swing
 
 Preliminary support for Swing has just been added. Here's an example:
 
-	import 'javax.swing.JFrame'
-	import 'javax.swing.JButton'
+<pre><code>
+import 'javax.swing.JFrame'
+import 'javax.swing.JButton'
 
-	frame = Magic.build do
-	  JFrame do
-	    title 'Hello!'
-	    size 400,500
-	    JButton('Press me') do |b|
-	      b.addActionListener do
-	        b.setText 'Pressed!'
-	      end
-	    end
-	  end
-	end
+frame = Magic.build do
+  JFrame do
+    title 'Hello!'
+    size 400,500
+    JButton('Press me') do |b|
+      b.addActionListener do
+        b.setText 'Pressed!'
+      end
+    end
+  end
+end
 
-	frame.set_default_close_operation(JFrame::EXIT_ON_CLOSE)
-	frame.show
+frame.set_default_close_operation(JFrame::EXIT_ON_CLOSE)
+frame.show
+</code></pre>
 
 h1. UNDER THE COVER
 
@@ -112,7 +120,9 @@ Magic comes with its set of specs (based on MSpec). You'll currently have to twe
 
 Then you can run (either on Windows or Mac OS):
 
+<pre><code>
   rake spec
+</code></pre>
 
 to see all the (m)specs running.
 
