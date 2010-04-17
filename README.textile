@@ -8,8 +8,7 @@ Here are quick starters (some of these are under samples/):
 
 h2. Windows Forms
 
-<pre><code>
-form = Magic.build do
+<pre><code>form = Magic.build do
   @menu = main_menu do
     menu_item("&File") do
       menu_item("&New")
@@ -31,8 +30,7 @@ Application.Run(form)
 
 h2. WPF
 
-<pre><code>
-window = Magic.build do
+<pre><code>window = Magic.build do
   window(:width => 600, :height => 480, :title => 'Hello world!') do
     stack_panel(:margin => thickness(30)) do
       button(:content => 'Click me!', :font_size => 22).click do
@@ -50,8 +48,7 @@ h2. Silverlight
 
 You'll need to run "rake compress" to create magic-compressed.rb, which gathers all the magic files into one. Once you have magic-compressed.rb, you can use it like that:
 
-<pre><code>
-require "silverlight"
+<pre><code>require "silverlight"
 require "magic-compressed"
 
 class App < SilverlightApplication
@@ -74,8 +71,7 @@ h2. Swing
 
 Preliminary support for Swing has just been added. Here's an example:
 
-<pre><code>
-import 'javax.swing.JFrame'
+<pre><code>import 'javax.swing.JFrame'
 import 'javax.swing.JButton'
 
 frame = Magic.build do
@@ -120,8 +116,7 @@ Magic comes with its set of specs (based on MSpec). You'll currently have to twe
 
 Then you can run (either on Windows or Mac OS):
 
-<pre><code>
-  rake spec
+<pre><code>rake spec
 </code></pre>
 
 to see all the (m)specs running.
