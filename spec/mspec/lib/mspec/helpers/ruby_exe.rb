@@ -1,3 +1,5 @@
+# Note - this version has been patched until I move Magic to RSpec
+
 require 'mspec/utils/ruby_name'
 require 'mspec/guards/guard'
 
@@ -92,8 +94,8 @@ class Object
   def resolve_ruby_exe
     [:env, :engine, :name, :install_name].each do |option|
       next unless cmd = ruby_exe_options(option)
-      exe = cmd.split.first
-
+      exe = cmd#.split.first #-> IronRuby is installed in a folder with spaces by default - things messed up here
+      
       # It has been reported that File.executable is not reliable
       # on Windows platforms (see commit 56bc555c). So, we check the
       # platform. 
