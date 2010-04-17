@@ -4,7 +4,6 @@ desc "Home-baked spec task"
 task :spec do
   # this obviously need some cleaning - it's currently getting the job done though
   if RUBY_PLATFORM == 'i386-mswin32'
-    ENV["RUBY_EXE"] = 'C:\git\ironruby\Merlin\Main\Bin\debug\ir.exe'
     system("ir spec/mspec/bin/mspec-run --format spec spec/*_spec.rb")
   else
     unless ENV["RUBY_EXE"]
